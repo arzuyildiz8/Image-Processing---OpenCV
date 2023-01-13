@@ -403,4 +403,186 @@ def bluringImage():
     plt.axis("off")
     plt.title("Image with Median Blurring")
 
-bluringImage()
+#bluringImage()
+
+def morphological():
+    # image
+    img = cv2.imread("j.png",0)
+    plt.figure()
+    plt.imshow(img, cmap="gray")
+    plt.axis("off")
+    
+    plt.title("Original Image")
+    
+    #Yapay gürültü oluşturuyoruz.
+    # white noise
+    whiteNoise = np.random.randint(low = 0, high = 2, size = img.shape[:2])
+    whiteNoise = whiteNoise*255
+    plt.figure()
+    plt.imshow(whiteNoise, cmap = "gray")
+    plt.axis("off")
+    plt.title("Tuz Gürültüsü")
+    
+    salt_noise_img = whiteNoise + img
+    plt.figure()
+    plt.imshow(salt_noise_img,cmap = "gray")
+    plt.axis("off")
+    plt.title("Tuz Gürültülü Image")
+    
+    
+    blackNoise = np.random.randint(low = 0, high = 2, size = img.shape[:2])
+    blackNoise = blackNoise*-255
+    pepper_noise_img = blackNoise + img
+    plt.figure()
+    plt.imshow(pepper_noise_img, cmap = "gray")
+    plt.axis("off")
+    plt.title("Biber Gürültüsü")
+
+    pepper_noise_img[pepper_noise_img <= -245] = 0
+    plt.figure()
+    plt.imshow(pepper_noise_img, cmap = "gray")
+    plt.axis("off")
+    plt.title("Biber Gürültülü Image")
+    
+    
+    
+    def erosion(img):
+        #erozyon aşındırma yapar inceltir.
+        # https://docs.opencv.org/trunk/d9/d61/tutorial_py_morphological_ops.html
+        # it erodes away the boundaries of foreground object
+        kernel = np.ones((5,5), dtype = np.uint8)
+        result = cv2.erode(img, kernel, iterations = 1) # iteration = 1 demek bunu 1 kere yap demek
+        plt.figure()
+        plt.imshow(result, cmap="gray")
+        plt.axis("off")
+        plt.title("Erozyon")
+    
+    erosion(img)
+    
+    def dilation(img):
+        # dilation genişleme
+        #Nesnenin sınırlanırını genişletir.
+        # erosion is followed by dilation. Because, erosion removes white noises, but it also shrinks our object. 
+        # So we dilate it. Since noise is gone, they won't come back, but our object area increases.
+        kernel = np.ones((5,5), dtype = np.uint8)
+        result = cv2.dilate(img, kernel, iterations = 1) # iteration = 1 demek bunu 1 kere yap demek
+        plt.figure()
+        plt.imshow(result, cmap="gray")
+        plt.axis("off")
+        
+        plt.title("Genişleme")
+    
+    dilation(img)
+    
+    def opening(salt_noise_img):
+        
+        #Gürültüyü azaltır. Önce erosion sonra dilation uygulanır.
+        # Opening is just another name of erosion followed by dilation.
+        #opening = erosion + dilation
+        kernel = np.ones((5,5), dtype = np.uint8)
+        opening = cv2.morphologyEx(salt_noise_img.astype(np.float32), cv2.MORPH_OPEN, kernel)
+        plt.figure()
+        plt.imshow(opening,cmap = "gray")
+        plt.axis("off")
+        plt.title("Açma")
+
+    opening(salt_noise_img)
+    
+    def closing(pepper_noise_img):
+        # Açmanın tam tersidir. Küçük delikleri veya siyah noktaları kapatmada kullanılır.
+        #closing= dilation+erosion
+        kernel = np.ones((5,5), dtype = np.uint8)
+        closing = cv2.morphologyEx(pepper_noise_img.astype(np.float32), cv2.MORPH_CLOSE, kernel)
+        plt.figure()
+        plt.imshow(closing,cmap = "gray")
+        plt.axis("off")
+        plt.title("Kapatma")
+    
+    closing(pepper_noise_img)
+    
+    def gradient(img):
+        
+        #gradient=dilation-erosion
+        #Kenar algılada kullanılır.
+        # Morphological Gradient it is edge detection
+        # It is the difference between dilation and erosion of an image.
+        kernel = np.ones((5,5), dtype = np.uint8)
+        gradient = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)
+        plt.figure()
+        plt.imshow(gradient,cmap = "gray")
+        plt.axis("off")
+        plt.title("Morfolojik  Gradyan")
+    
+    gradient(img)
+
+#morphological() 
+
+def gradients():
+    
+    #Görüntü işlemede x ve y koordinant düzleminin tam tersidir.
+    
+    
+    img = cv2.imread("sudoku.jpg", 0) 
+    plt.figure()
+    plt.imshow(img, cmap = "gray")
+    plt.axis("off")
+    plt.title("Orjinal Görüntü")
+    
+    #  output derinliği 
+    # x gradyan
+    sobelx = cv2.Sobel(img, ddepth = cv2.CV_16S, dx = 1, dy = 0, ksize = 5) # depth is precision of each pixel
+    plt.figure()
+    plt.imshow(sobelx, cmap = "gray")
+    plt.axis("off")
+    plt.title("Sobel X")
+    
+    # y gradyan 
+    sobely = cv2.Sobel(img, ddepth = cv2.CV_16S, dx = 0, dy = 1, ksize = 5) # depth is precision of each pixel
+    plt.figure()
+    plt.imshow(sobely, cmap = "gray")
+    plt.axis("off")
+    plt.title("Sobel Y")
+    
+    # Laplacian gradyan =  x gradyon + y gradyan
+    laplacian = cv2.Laplacian(img, ddepth = cv2.CV_16S)
+    plt.figure()
+    plt.imshow(laplacian, cmap = "gray")
+    plt.axis("off")
+    plt.title("Laplacian")
+
+gradients()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
