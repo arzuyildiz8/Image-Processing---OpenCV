@@ -12,10 +12,11 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
+
 """ ###### VIDEO ######"""
 def readVideo():
 
-    cap = cv2.VideoCapture("video.mp4") # read video
+    cap = cv2.VideoCapture("data/video.mp4") # read video
     print("Genişlik: ",cap.get(3)) 
     print("Yükseklik: ", cap.get(4))
     
@@ -89,9 +90,9 @@ def readVideoWithCamera():
 
 def importImage():
     
-    img = cv2.imread('img1.JPG')
+    img = cv2.imread('data/img1.JPG')
     # Load an color image in grayscale
-    img_gray = cv2.imread('img1.JPG',0)
+    img_gray = cv2.imread('data/img1.JPG',0)
     
     # oku
     cv2.imshow('image',img)
@@ -104,7 +105,7 @@ def importImage():
     if k == 27:         # wait for ESC key to exit
         cv2.destroyAllWindows() # yarattığımız tüm pencereleri yok eder.
     elif k == ord('s'): # wait for 's' key to save and exit
-        cv2.imwrite('messi_gray.png',img)
+        cv2.imwrite('data/messi_gray.png',img)
         cv2.destroyAllWindows()
         
 #importImage()
@@ -112,7 +113,7 @@ def importImage():
 
 def resizeAndCropImage():
     # resize and cropping
-    img = cv2.imread("img2.JPG")
+    img = cv2.imread("data/img2.JPG")
     print("Resim boyutu: ", img.shape)
     cv2.imshow("Orjinal", img)
     
@@ -148,8 +149,8 @@ def shapeAndTextImage():
 
 def joiningImage():
     # joining images
-    img1 = cv2.imread("img2.JPG")
-    img2 = cv2.imread("img1.JPG")
+    img1 = cv2.imread("data/img2.JPG")
+    img2 = cv2.imread("data/img1.JPG")
     
     imgResized1 = cv2.resize(img1,(300,300))
     imgResized2 = cv2.resize(img2,(300,300))
@@ -167,7 +168,7 @@ def joiningImage():
 
 def wrapPerspective():
     # Perspektif Çarpıtma
-    img = cv2.imread("kart.png")
+    img = cv2.imread("data/kart.png")
     
     width = 400#371
     height = 500 #517
@@ -190,9 +191,9 @@ def wrapPerspective():
 
 def blendingImage():
     # blending
-    img1 = cv2.imread("img1.jpg")
+    img1 = cv2.imread("data/img1.jpg")
     img1= cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
-    img2 = cv2.imread("img2.jpg")
+    img2 = cv2.imread("data/img2.jpg")
     img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
     
     plt.figure()
@@ -225,7 +226,7 @@ def blendingImage():
 
 def threshing():
     # image thresholding: convering color image to binary
-    img = cv2.imread("img1.jpg")
+    img = cv2.imread("data/img1.jpg")
     img= cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     plt.figure()
     plt.imshow(img, cmap="gray")
@@ -278,7 +279,7 @@ def bluringImage():
     # blurring(detayı azaltır) 
     # Blur images with various low pass filters
     # https://docs.opencv.org/master/d4/d13/tutorial_py_filtering.html
-    img = cv2.imread("NYC.jpg")
+    img = cv2.imread("data/NYC.jpg")
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     plt.figure() 
     plt.imshow(img) 
@@ -364,7 +365,7 @@ def bluringImage():
       
         return noisy
     
-    img = cv2.imread("NYC.jpg")
+    img = cv2.imread("data/NYC.jpg")
     img= cv2.cvtColor(img, cv2.COLOR_BGR2RGB)/255
     plt.figure()
     plt.imshow(img)
@@ -407,7 +408,7 @@ def bluringImage():
 
 def morphological():
     # image
-    img = cv2.imread("j.png",0)
+    img = cv2.imread("data/j.png",0)
     plt.figure()
     plt.imshow(img, cmap="gray")
     plt.axis("off")
@@ -522,7 +523,7 @@ def gradients():
     #Görüntü işlemede x ve y koordinant düzleminin tam tersidir.
     
     
-    img = cv2.imread("sudoku.jpg", 0) 
+    img = cv2.imread("data/sudoku.jpg", 0) 
     plt.figure()
     plt.imshow(img, cmap = "gray")
     plt.axis("off")
@@ -558,7 +559,7 @@ def histogram():
     """Histogram renk yoğunluğunu grafik olarak gözlemlememize olanak sağlar."""
     
     # mask
-    golden_gate = cv2.imread("goldenGate.jpg") 
+    golden_gate = cv2.imread("data/goldenGate.jpg") 
     golden_gate_vis = cv2.cvtColor(golden_gate, cv2.COLOR_BGR2RGB)
     plt.figure()
     plt.imshow(golden_gate_vis)    
@@ -578,7 +579,7 @@ def histogram():
             Kontrastı artırır ve detayları belirginleştirir."""
         
             
-        img = cv2.imread('hist_equ.jpg',0)
+        img = cv2.imread('data/hist_equ.jpg',0)
         plt.figure()
         plt.imshow(img, cmap = "gray")
         
